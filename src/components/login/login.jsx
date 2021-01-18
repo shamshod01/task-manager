@@ -2,21 +2,24 @@ import React, {useState} from 'react'
 import {Drawer, Button} from 'antd';
 import {Form, Input} from 'antd';
 import {useDispatch, useSelector} from "react-redux";
-import {login} from "../../redux/user/user.reducer";
+import {login, logOut} from "../../redux/user/user.reducer";
 
 const Login = () => {
     const [showModal, setShowModal] = useState(false)
+    const [form] = Form.useForm();
     const dispatch = useDispatch()
     const onFinish = (values) => {
         dispatch(login(values.username, values.password))
+        form.resetFields()
+        setShowModal(false)
     };
     const username = useSelector(state => state.userPage.username)
-    const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
+
     return (
         <>
-            {username.length > 1 ? <h3>{username}</h3> : <Button type="primary" onClick={() => setShowModal(true)}>
+            {username.length > 1 ? <Button type="primary" ghost onClick={() => dispatch(logOut())}>
+                logout
+            </Button> : <Button type="primary" onClick={() => setShowModal(true)}>
                 login
             </Button>}
             <Drawer
@@ -30,13 +33,9 @@ const Login = () => {
                 visible={showModal}
             >
                 <Form
-
+                    form={form}
                     name="basic"
-                    initialValues={{
-                        remember: true,
-                    }}
                     onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
                 >
                     <Form.Item
                         label="Username"

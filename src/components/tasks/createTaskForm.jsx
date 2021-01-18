@@ -20,18 +20,18 @@ const validateMessages = {
 };
 
 const CreateTaskForm = () => {
+    const [form] = Form.useForm();
+    const dispatch = useDispatch()
     const onFinish = (values) => {
         dispatch(createTask(values))
         form.resetFields()
     };
-    const dispatch = useDispatch()
-    const [form] = Form.useForm();
     return <div>
         <br/>
         <Col offset={8}>
             <h2>Add Your Task</h2>
         </Col>
-        <Form {...layout} initialValues={{username:null, email: null, text: null}} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+        <Form {...layout} form={form} initialValues={{username:null, email: null, text: null}} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
             <Form.Item
                 name={'username'}
                 label={<h3>Name</h3>}

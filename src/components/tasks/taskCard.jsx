@@ -25,9 +25,9 @@ const TaskCard = ({task, currentQueryParams}) => {
             <img alt="smallPhoto" style={{maxHeight: "160px"}}
                  src={`https://source.unsplash.com/1600x900/?${task.text}`}/>}
     >
-        <h4>{task.username.replaceAll("&gt;", ">").replaceAll("&lt;", "<").replace( /(<([^>]+)>)/ig, '')}</h4>
+        <h4>username: {task.username.replaceAll("&gt;", ">").replaceAll("&lt;", "<").replace( /(<([^>]+)>)/ig, '')}</h4>
         <br/>
-        <h4>{task.email}</h4>
+        <h4>email: {task.email}</h4>
         <br/>
         {isEdit?<div>
             <Input.TextArea value={taskText} onChange={(e) => {
@@ -37,9 +37,9 @@ const TaskCard = ({task, currentQueryParams}) => {
             status === 10 ? setStatus(0) : setStatus(10)
         }} />
         </div>:<div>
-            {task.status === 0 ? 'Task is ' : 'Task was  '} <span dangerouslySetInnerHTML={{__html: task.text}}/>
+            {task.status === 0 ? 'Task is :' : 'Task was :'} <span dangerouslySetInnerHTML={{__html: task.text}}/>
             <hr/>
-            <span>{task.status === 0 ? 'Let`s do it' : 'It was great job'}</span>
+            <span>status: {task.status === 0 ? 'Let`s do it' : 'It was great job'}</span>
         </div>}
         <br/>
         {userToken&&<Button type={'primary'} onClick={handleEdit}>{isEdit ? 'Submit' : 'Edit'}</Button>}

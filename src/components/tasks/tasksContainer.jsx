@@ -35,7 +35,6 @@ const TasksContainer = ( ) => {
             <Col>
                 <Select defaultValue={sortField} style={{width: 120}} onChange={handleSortField}>
                     <Option value="username">username</Option>
-                    <Option value="id">id</Option>
                     <Option value="email">email</Option>
                     <Option value="status">status</Option>
                 </Select>

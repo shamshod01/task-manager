@@ -49,7 +49,7 @@ const TasksContainer = ( ) => {
         <br/>
         <Row justify={'center'} gutter={[8,8]}>
             {tasks.map(t => <Col xs={24} md={12} lg={6}  key={t.id}>
-                <TaskCard key={t.id} task={t} currentQueryParams={{pageNum, sortField, sortDr}}/>
+                <TaskCard key={`${t.id} ${t.text}`} task={t} currentQueryParams={{pageNum, sortField, sortDr}}/>
             </Col>)}
             <Col xs={24} md={12} lg={6} >
                 <CreateTaskForm/>

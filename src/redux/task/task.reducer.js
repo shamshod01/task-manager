@@ -1,6 +1,7 @@
 import TASK_ACTION_TYPES from "./task.action-types";
 import {tasksAPI} from "../../api/api";
 import {message} from "antd";
+import {setTextEdited} from "../user/user.reducer";
 
 
 let initialState ={
@@ -31,8 +32,6 @@ const taskReducer = (state=initialState, action)=>{
             return {...state, pageNum: action.pageNum}
         case TASK_ACTION_TYPES.SET_TOTAL_TASK_COUNT:
             return {...state, totalTaskCount: action.totalTaskCount}
-        case TASK_ACTION_TYPES.ADD_TASK:
-            return {...state, tasks: [action.task]}
         default:
             return state
     }
@@ -50,7 +49,7 @@ const toggleIsFetching = (isFetching) => ({type: TASK_ACTION_TYPES.TOGGLE_IS_FET
 
 const setTotalTasksCount = (totalTaskCount) => ({type: TASK_ACTION_TYPES.SET_TOTAL_TASK_COUNT, totalTaskCount})
 
-const addTask = (task) => ({type: TASK_ACTION_TYPES.ADD_TASK, task})
+
 
 //Thunks
 export const requestTasks = (page,sf,sd) => {
@@ -84,6 +83,7 @@ export const editTask = (task, userToken, queryP) => {
     return async (dispatch) => {
         let data = await tasksAPI.editTask(task, userToken)
         if(data.status ==='ok') {
+            task.text&&dispatch(setTextEdited(task.id))
             dispatch(requestTasks(queryP.pageNum, queryP.sortField, queryP.sortDr))
             message.success('successfully edited')
         } else {

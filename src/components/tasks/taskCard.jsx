@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import {Button, Card, Switch, Input} from "antd";
+import {Button, Card,Row, Col, Switch, Input} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {editTask} from "../../redux/task/task.reducer";
 
 const TaskCard = ({task, currentQueryParams}) => {
     const userToken = useSelector(state => state.userPage.userToken)
+    const textEditedTasks = useSelector(state => state.userPage.textEditedTasks)
     const dispatch = useDispatch()
     const [isEdit, setIsEdit] = useState(false)
     const [taskText, setTaskText] = useState(task.text)
@@ -12,7 +13,7 @@ const TaskCard = ({task, currentQueryParams}) => {
     const handleEdit = () => {
         setIsEdit(prev => !prev)
         if(isEdit) {
-           taskText.length>0&&dispatch(editTask({id:task.id, text: taskText, status}, userToken,currentQueryParams))
+           taskText.length>0&&dispatch(editTask({id:task.id, text: taskText===task.text?null:taskText, status}, userToken,currentQueryParams))
         }
     }
 
@@ -42,7 +43,14 @@ const TaskCard = ({task, currentQueryParams}) => {
             <span>status: {task.status === 0 ? 'Let`s do it' : 'It was great job'}</span>
         </div>}
         <br/>
-        {userToken&&<Button type={'primary'} onClick={handleEdit}>{isEdit ? 'Submit' : 'Edit'}</Button>}
+        {userToken&&<Row>
+            <Col span={6}>
+                <Button type={'primary'} onClick={handleEdit}>{isEdit ? 'Submit' : 'Edit'}</Button>
+            </Col>
+            <Col span={18}>
+                {textEditedTasks.includes(task.id)&&<span>was edited by administrator</span>}
+            </Col>
+        </Row>}
     </Card>
 }
 

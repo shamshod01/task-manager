@@ -30,7 +30,7 @@ export const tasksAPI = {
         const formData = new FormData()
         formData.append('token', userToken)
         formData.append('status', task.status)
-        formData.append('text', task.text)
+        task.text&&formData.append('text', task.text)
         return instance.post(`edit/${task.id}/?developer=Shamshod`,formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'

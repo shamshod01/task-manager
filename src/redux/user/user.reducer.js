@@ -1,5 +1,6 @@
 import {authAPI} from "../../api/api";
 import {message} from "antd";
+import {BroadcastChannel} from 'broadcast-channel';
 
 const SET_USER = 'SET_USER'
 const LOG_OUT = 'LOG_OUT'
@@ -26,7 +27,19 @@ const userReducer = (state=initialState, action) => {
 export const setUser = (username, userToken) => ({
     type: SET_USER, username, userToken
 })
-export const logOut = () => ({type: LOG_OUT})
+
+const logoutChannel = new BroadcastChannel('logout')
+const setLogout = () => ({type: LOG_OUT})
+export const logOut = () => async (dispatch) => {
+    await dispatch(setLogout())
+    await logoutChannel.postMessage();
+}
+export const logoutAllTabsListener = () => {
+    logoutChannel.onmessage = event => {
+        window.location.reload()
+        logoutChannel.close();
+    }
+};
 export const setTextEdited = (id) => ({type: SET_TEXT_EDITED, id})
 
 export const login = (username, password) => async (dispatch) => {

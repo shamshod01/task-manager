@@ -7,7 +7,7 @@ let reducers = combineReducers({
     tasksPage: taskReducer,
     userPage: userReducer
 })
-const persistedState = sessionStorage.getItem('reduxState')?JSON.parse(sessionStorage.getItem('reduxState')):null;
+const persistedState = localStorage.getItem('reduxState')?JSON.parse(localStorage.getItem('reduxState')):null;
 let store;
 if(persistedState){
     store = createStore(reducers, { ...reducers, userPage:persistedState}, applyMiddleware(thunkMiddleware))
@@ -16,7 +16,7 @@ if(persistedState){
 }
 
 store.subscribe(()=>{
-    sessionStorage.setItem('reduxState', JSON.stringify(store.getState().userPage))
+    localStorage.setItem('reduxState', JSON.stringify(store.getState().userPage))
 })
 
 export default store

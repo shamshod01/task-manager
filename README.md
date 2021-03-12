@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+deploy - https://shamshod01.github.io/task-manager/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
